@@ -526,6 +526,38 @@ RCT_EXPORT_METHOD(getToken:
     }
 }
 
+RCT_EXPORT_METHOD(getIdTokenResult:
+                  (NSString *) appDisplayName
+                  forceRefresh:
+                  (BOOL) forceRefresh
+                  resolver:
+                  (RCTPromiseResolveBlock) resolve
+                  rejecter:
+                  (RCTPromiseRejectBlock) reject) {
+    FIRApp *firApp = [RNFirebaseUtil getApp:appDisplayName];
+    
+    FIRUser *user = [FIRAuth authWithApp:firApp].currentUser;
+    
+    if (user) {
+        [user getIDTokenResultForcingRefresh:forceRefresh completion:^(FIRAuthTokenResult * _Nullable tokenResult, NSError * _Nullable error) {
+            if (error) {
+                [self promiseRejectAuthException:reject error:error];
+            } else {
+                resolve(@{
+                          @"authDate": @(tokenResult.authDate.timeIntervalSince1970),
+                          @"claims": tokenResult.claims,
+                          @"expirationDate": @(tokenResult.expirationDate.timeIntervalSince1970),
+                          @"issuedAtDate": @(tokenResult.issuedAtDate.timeIntervalSince1970),
+                          @"signInProvider": tokenResult.signInProvider ? tokenResult.signInProvider : tokenResult.claims[@"firebase"][@"sign_in_provider"],
+                          @"token": tokenResult.token,
+                          });
+            }
+        }];
+    } else {
+        [self promiseNoUser:resolve rejecter:reject isError:YES];
+    }
+}
+
 /**
  signInWithCredential
 

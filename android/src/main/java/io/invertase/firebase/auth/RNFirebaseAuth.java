@@ -1237,6 +1237,41 @@ class RNFirebaseAuth extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void getIdTokenResult(String appName, Boolean forceRefresh, final Promise promise) {
+    FirebaseApp firebaseApp = FirebaseApp.getInstance(appName);
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance(firebaseApp);
+
+    FirebaseUser user = firebaseAuth.getCurrentUser();
+    Log.d(TAG, "getToken/getIdTokenResult");
+
+    if (user != null) {
+      user.getIdToken(forceRefresh)
+              .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                @Override
+                public void onComplete(@NonNull Task<GetTokenResult> task) {
+                  if (task.isSuccessful()) {
+                    Log.d(TAG, "getToken:onComplete:success");
+                    WritableMap result = Arguments.createMap();
+                    result.putDouble("authDate", task.getResult().getAuthTimestamp());
+                    result.putMap("claims", Arguments.makeNativeMap(task.getResult().getClaims()));
+                    result.putDouble("expirationDate", task.getResult().getExpirationTimestamp());
+                    result.putDouble("issuedAtDate", task.getResult().getIssuedAtTimestamp());
+                    result.putString("signInProvider", task.getResult().getSignInProvider());
+                    result.putString("token", task.getResult().getToken());
+                    promise.resolve(result);
+                  } else {
+                    Exception exception = task.getException();
+                    Log.e(TAG, "getToken:onComplete:failure", exception);
+                    promiseRejectAuthException(promise, exception);
+                  }
+                }
+              });
+    } else {
+      promiseNoUser(promise, true);
+    }
+  }
+
+  @ReactMethod
   public void fetchSignInMethodsForEmail(String appName, String email, final Promise promise) {
     FirebaseApp firebaseApp = FirebaseApp.getInstance(appName);
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance(firebaseApp);
