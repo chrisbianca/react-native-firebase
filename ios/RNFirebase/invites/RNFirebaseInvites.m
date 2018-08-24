@@ -4,7 +4,7 @@
 #import "RNFirebaseEvents.h"
 #import "RNFirebaseLinks.h"
 #import "RNFirebaseUtil.h"
-#import <FirebaseInvites/FirebaseInvites.h>
+#import <Firebase/Firebase.h>
 
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTConvert.h>
@@ -97,7 +97,7 @@ RCT_EXPORT_METHOD(getInitialInvitation:(RCTPromiseResolveBlock)resolve rejecter:
             url = userActivity.webpageURL;
         }
     }
-    
+
     if (url) {
         [FIRInvites handleUniversalLink:url completion:^(FIRReceivedInvite * _Nullable receivedInvite, NSError * _Nullable error) {
             if (error) {
@@ -130,7 +130,7 @@ RCT_EXPORT_METHOD(sendInvitation:(NSDictionary *) invitation
     [inviteDialog setInviteDelegate: self];
     [inviteDialog setMessage:invitation[@"message"]];
     [inviteDialog setTitle:invitation[@"title"]];
-    
+
     if (invitation[@"androidClientId"]) {
         FIRInvitesTargetApplication *targetApplication = [[FIRInvitesTargetApplication alloc] init];
         targetApplication.androidClientID = invitation[@"androidClientId"];
@@ -148,11 +148,11 @@ RCT_EXPORT_METHOD(sendInvitation:(NSDictionary *) invitation
     if (invitation[@"deepLink"]) {
         [inviteDialog setDeepLink:invitation[@"deepLink"]];
     }
-    
+
     // Save the promise details for later
     _invitationsRejecter = reject;
     _invitationsResolver = resolve;
-    
+
     // Open the invitation dialog
     dispatch_async(dispatch_get_main_queue(), ^{
         [inviteDialog open];
@@ -207,4 +207,3 @@ RCT_EXPORT_METHOD(jsInitialised:(RCTPromiseResolveBlock)resolve rejecter:(RCTPro
 @implementation RNFirebaseInvites
 @end
 #endif
-

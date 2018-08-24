@@ -1,7 +1,7 @@
 #import "RNFirebasePerformance.h"
 
 #if __has_include(<FirebasePerformance/FIRPerformance.h>)
-#import <FirebasePerformance/FIRPerformance.h>
+#import <Firebase/Firebase.h>
 @implementation RNFirebasePerformance
 RCT_EXPORT_MODULE();
 

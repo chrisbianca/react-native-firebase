@@ -3,7 +3,7 @@
 #import <Foundation/Foundation.h>
 
 #if __has_include(<FirebaseInvites/FirebaseInvites.h>)
-#import <FirebaseInvites/FirebaseInvites.h>
+#import <Firebase/Firebase.h>
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventEmitter.h>
 

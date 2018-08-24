@@ -5,7 +5,7 @@
 
 #if __has_include(<FirebaseDatabase/FIRDatabase.h>)
 
-#import <FirebaseDatabase/FIRDatabase.h>
+#import <Firebase/Firebase.h>
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventEmitter.h>
 

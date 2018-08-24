@@ -1,8 +1,7 @@
 #import "RNFirebaseInstanceId.h"
 
 #if __has_include(<FirebaseInstanceID/FIRInstanceID.h>)
-#import <FirebaseMessaging/FirebaseMessaging.h>
-#import <FirebaseInstanceID/FIRInstanceID.h>
+#import <Firebase/Firebase.h>
 
 @implementation RNFirebaseInstanceId
 RCT_EXPORT_MODULE();
@@ -63,4 +62,3 @@ RCT_EXPORT_METHOD(deleteToken:(NSString *)authorizedEntity
 @implementation RNFirebaseInstanceId
 @end
 #endif
-

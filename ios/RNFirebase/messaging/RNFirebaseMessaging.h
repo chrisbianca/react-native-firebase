@@ -3,7 +3,7 @@
 #import <Foundation/Foundation.h>
 
 #if __has_include(<FirebaseMessaging/FirebaseMessaging.h>)
-#import <FirebaseMessaging/FirebaseMessaging.h>
+#import <Firebase/Firebase.h>
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventEmitter.h>
 
@@ -27,4 +27,3 @@
 #endif
 
 #endif
-

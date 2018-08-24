@@ -4,8 +4,7 @@
 @import UserNotifications;
 #import "RNFirebaseEvents.h"
 #import "RNFirebaseUtil.h"
-#import <FirebaseMessaging/FirebaseMessaging.h>
-#import <FirebaseInstanceID/FIRInstanceID.h>
+#import <Firebase/Firebase.h>
 
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTConvert.h>
@@ -43,7 +42,7 @@ RCT_EXPORT_MODULE()
 
     // Establish Firebase managed data channel
     [FIRMessaging messaging].shouldEstablishDirectChannel = YES;
-    
+
     // Set static instance for use from AppDelegate
     theRNFirebaseMessaging = self;
 }
@@ -173,7 +172,7 @@ RCT_EXPORT_METHOD(sendMessage:(NSDictionary *) message
     NSDictionary *data = message[@"data"];
 
     [[FIRMessaging messaging] sendMessage:data to:to withMessageID:messageId timeToLive:[ttl intValue]];
-    
+
     // TODO: Listen for send success / errors
     resolve(nil);
 }
@@ -252,7 +251,7 @@ RCT_EXPORT_METHOD(jsInitialised:(RCTPromiseResolveBlock)resolve rejecter:(RCTPro
 - (NSDictionary*)parseUserInfo:(NSDictionary *)userInfo {
     NSMutableDictionary *message = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-    
+
     for (id k1 in userInfo) {
         if ([k1 isEqualToString:@"aps"]) {
             // Ignore notification section
@@ -272,9 +271,9 @@ RCT_EXPORT_METHOD(jsInitialised:(RCTPromiseResolveBlock)resolve rejecter:(RCTPro
             data[k1] = userInfo[k1];
         }
     }
-    
+
     message[@"data"] = data;
-    
+
     return message;
 }
 
@@ -293,4 +292,3 @@ RCT_EXPORT_METHOD(jsInitialised:(RCTPromiseResolveBlock)resolve rejecter:(RCTPro
 @implementation RNFirebaseMessaging
 @end
 #endif
-

@@ -1,6 +1,6 @@
 #import "RNFirebase.h"
 #import "RNFirebaseUtil.h"
-#import <FirebaseCore/FirebaseCore.h>
+#import <Firebase/Firebase.h>
 #import <React/RCTUtils.h>
 
 @implementation RNFirebase

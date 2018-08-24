@@ -6,7 +6,7 @@
 #import "RNFirebaseUtil.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <Photos/Photos.h>
-#import <Firebase.h>
+#import <Firebase/Firebase.h>
 #import <React/RCTUtils.h>
 
 @implementation RNFirebaseStorage
@@ -119,7 +119,7 @@ RCT_EXPORT_METHOD(downloadFile:(NSString *) appDisplayName
                       rejecter:(RCTPromiseRejectBlock) reject) {
     FIRStorageReference *fileRef = [self getReference:path appDisplayName:appDisplayName];
     NSURL *localFile = [NSURL fileURLWithPath:localPath];
-    
+
     __block FIRStorageDownloadTask *downloadTask;
     RCTUnsafeExecuteOnMainQueueSync(^{
         downloadTask = [fileRef writeToFile:localFile];

@@ -2,8 +2,7 @@
 #import <React/RCTUtils.h>
 
 #if __has_include(<FirebaseAnalytics/FIRAnalytics.h>)
-#import <FirebaseAnalytics/FIRAnalytics.h>
-#import <FirebaseCore/FIRAnalyticsConfiguration.h>
+#import <Firebase/Firebase.h>
 
 @implementation RNFirebaseAnalytics
 RCT_EXPORT_MODULE();

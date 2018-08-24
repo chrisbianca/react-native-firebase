@@ -1,9 +1,7 @@
 #import "RNFirebaseFunctions.h"
 
 #if __has_include(<FirebaseFunctions/FIRFunctions.h>)
-#import <FirebaseFunctions/FIRFunctions.h>
-#import <FirebaseFunctions/FIRHTTPSCallable.h>
-#import <FirebaseFunctions/FIRError.h>
+#import <Firebase/Firebase.h>
 
 @implementation RNFirebaseFunctions
 RCT_EXPORT_MODULE();
@@ -18,7 +16,7 @@ RCT_EXPORT_METHOD(httpsCallable:
                   (RCTPromiseRejectBlock) reject
                   ) {
     FIRFunctions *functions = [FIRFunctions functions];
-    
+
     [[functions HTTPSCallableWithName:name] callWithObject:[wrapper valueForKey:@"data"] completion:^(FIRHTTPSCallableResult * _Nullable result, NSError * _Nullable error) {
         if (error) {
             NSObject *details = [NSNull null];
@@ -29,7 +27,7 @@ RCT_EXPORT_METHOD(httpsCallable:
                     details = [NSNull null];
                 }
             }
-            
+
             resolve(@{
                 @"__error": @true,
                 @"code": [self getErrorCodeName:error],
@@ -40,7 +38,7 @@ RCT_EXPORT_METHOD(httpsCallable:
             resolve(@{ @"data": [result data] });
         }
     }];
-    
+
 }
 
 - (NSString *)getErrorCodeName:(NSError *)error {
@@ -100,7 +98,7 @@ RCT_EXPORT_METHOD(httpsCallable:
         default:
             break;
     }
-    
+
     return code;
 }
 
@@ -111,4 +109,3 @@ RCT_EXPORT_METHOD(httpsCallable:
 @implementation RNFirebaseFunctions
 @end
 #endif
-

@@ -3,7 +3,7 @@
 #import <Foundation/Foundation.h>
 
 #if __has_include(<FirebaseDynamicLinks/FirebaseDynamicLinks.h>)
-#import <FirebaseDynamicLinks/FirebaseDynamicLinks.h>
+#import <Firebase/Firebase.h>
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventEmitter.h>
 
@@ -23,4 +23,3 @@
 #endif
 
 #endif
-
