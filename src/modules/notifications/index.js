@@ -205,7 +205,11 @@ export default class Notifications extends ModuleBase {
    * @returns {Promise.<Array>}
    */
   getScheduledNotifications(): Promise<Notification[]> {
-    return getNativeModule(this).getScheduledNotifications();
+    return getNativeModule(this)
+      .getScheduledNotifications()
+      .then((notifications: NativeNotification[]) =>
+        notifications.map(notification => new Notification(notification))
+      );
   }
 
   onNotification(

@@ -688,6 +688,26 @@ RCT_EXPORT_METHOD(jsInitialised:(RCTPromiseResolveBlock)resolve rejecter:(RCTPro
     if (notificationRequest.content.threadIdentifier) {
         ios[@"threadIdentifier"] = notificationRequest.content.threadIdentifier;
     }
+    if (notificationRequest.trigger && [notificationRequest.trigger class] == [UNCalendarNotificationTrigger class]) {
+        UNCalendarNotificationTrigger *trigger = (UNCalendarNotificationTrigger*)notificationRequest.trigger;
+
+        NSMutableDictionary *schedule = [[NSMutableDictionary alloc] init];
+        schedule[@"fireDate"] = @([[trigger nextTriggerDate] timeIntervalSince1970] * 1000);
+        if (trigger.repeats) {
+            if ([trigger.dateComponents valueForComponent:NSCalendarUnitYear] != NSDateComponentUndefined) {
+                schedule[@"repeatInterval"] = @"second";
+            } else if ([trigger.dateComponents valueForComponent:NSCalendarUnitWeekday] != NSDateComponentUndefined) {
+                schedule[@"repeatInterval"] = @"week";
+            } else if ([trigger.dateComponents valueForComponent:NSCalendarUnitHour] != NSDateComponentUndefined) {
+                schedule[@"repeatInterval"] = @"day";
+            } else if ([trigger.dateComponents valueForComponent:NSCalendarUnitMinute] != NSDateComponentUndefined) {
+                schedule[@"repeatInterval"] = @"hour";
+            } else if ([trigger.dateComponents valueForComponent:NSCalendarUnitSecond] != NSDateComponentUndefined) {
+                schedule[@"repeatInterval"] = @"minute";
+            }
+        }
+        notification[@"schedule"] = schedule;
+    }
     notification[@"ios"] = ios;
 
     return notification;
