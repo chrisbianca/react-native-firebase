@@ -7,7 +7,7 @@ import AndroidNotification from './AndroidNotification';
 import IOSNotification from './IOSNotification';
 import { generatePushID, isObject } from '../../utils';
 
-import type { NativeNotification } from './types';
+import type { NativeNotification, Schedule } from './types';
 import type Notifications from './';
 
 export type NotificationOpen = {|
@@ -30,6 +30,8 @@ export default class Notification {
 
   _notificationId: string;
 
+  _schedule: Schedule | void;
+
   _sound: string | void;
 
   // soundName | sound | sound
@@ -46,6 +48,7 @@ export default class Notification {
       this._body = nativeNotification.body;
       this._data = nativeNotification.data;
       this._notificationId = nativeNotification.notificationId;
+      this._schedule = nativeNotification.schedule;
       this._sound = nativeNotification.sound;
       this._subtitle = nativeNotification.subtitle;
       this._title = nativeNotification.title;
@@ -86,6 +89,10 @@ export default class Notification {
 
   get notificationId(): string {
     return this._notificationId;
+  }
+
+  get schedule(): ?Schedule {
+    return this._schedule;
   }
 
   get sound(): ?string {
