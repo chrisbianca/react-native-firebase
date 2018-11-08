@@ -43,7 +43,7 @@ export default class IOSNotification {
 
   constructor(
     notification: Notification,
-    notifications: Notifications,
+    notifications?: Notifications,
     data?: NativeIOSNotification
   ) {
     this._notification = notification;
