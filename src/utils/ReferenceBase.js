@@ -4,7 +4,7 @@
 export default class ReferenceBase {
   path: string;
 
-  constructor(path: string) {
+  constructor(path?: string) {
     if (path) {
       this.path =
         path.length > 1 && path.endsWith('/')

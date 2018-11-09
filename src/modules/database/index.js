@@ -106,7 +106,7 @@ export default class Database extends ModuleBase {
    * @param path
    * @returns {Reference}
    */
-  ref(path: string): Reference {
+  ref(path?: string): Reference {
     return new Reference(this, path);
   }
 

@@ -87,7 +87,7 @@ export default class Reference extends ReferenceBase {
 
   constructor(
     database: Database,
-    path: string,
+    path?: string,
     existingModifiers?: Array<DatabaseModifier>
   ) {
     super(path);
