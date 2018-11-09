@@ -291,21 +291,16 @@ RCT_EXPORT_METHOD(putFile:(NSString *) appDisplayName
         }
         
         // TODO large files should not go through 'data', should use file directly
-        // TODO heic conversion not working here UIImageJPEGRepresentation -> returns nil
-        
-        // BOOL isHeic = [self isHeic:localPath];
         NSData *data = [NSData dataWithContentsOfFile:localPath];
-        
-        if ([firmetadata valueForKey:@"contentType"] == nil) {
+
+        if ([self isHeic:localPath]) {
+            UIImage *image = [UIImage imageWithData: data];
+            data = UIImageJPEGRepresentation(image, 1);
+            firmetadata.contentType = @"image/jpeg";
+        } else if ([firmetadata valueForKey:@"contentType"] == nil) {
             firmetadata.contentType = [self mimeTypeForPath:localPath];
         }
-        
-        // if (isHeic) {
-        //      UIImage *image = [UIImage imageWithData: data];
-        //      data = UIImageJPEGRepresentation(image, 1);
-        //      firmetadata.contentType = @"image/jpeg";
-        // }
-        
+
         [self uploadData:appDisplayName data:data firmetadata:firmetadata path:path resolver:resolve rejecter:reject];
     }
 }
